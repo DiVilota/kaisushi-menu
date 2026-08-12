@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kai Sushi Restaurant — Carta</title>
+<meta name="description" content="Carta digital de Kai Sushi Restaurant. Rolls, tablas, tortas, gohan, pizza y bebestibles.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b0d0c;
+    --surface: #151815;
+    --line: rgba(201,161,90,0.18);
+    --gold: #c9a15a;
+    --coral: #d1573f;
+    --text: #ece7da;
+    --muted: #8d9289;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(201,161,90,0.05), transparent 40%),
+      radial-gradient(circle at 85% 92%, rgba(209,87,63,0.05), transparent 40%);
+  }
+
+  /* Koi line watermark, drawn once, fixed */
+  .koi-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.05;
+    background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><path d="M40 200 Q120 100 200 200 T360 200" fill="none" stroke="%23c9a15a" stroke-width="2"/><circle cx="360" cy="200" r="10" fill="none" stroke="%23c9a15a" stroke-width="2"/></svg>');
+    background-size:400px 400px;
+  }
+
+  header{
+    position:sticky; top:0; z-index:20;
+    background:rgba(11,13,12,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-top{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 18px 8px;
+    max-width:720px; margin:0 auto;
+  }
+  .wordmark{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:26px; letter-spacing:2px; color:var(--text);
+    display:flex; align-items:baseline; gap:8px;
+  }
+  .wordmark span{color:var(--gold);}
+  .call-btn{
+    font-size:12px; text-decoration:none; color:var(--bg);
+    background:var(--gold); padding:8px 14px; border-radius:999px;
+    font-weight:700; letter-spacing:0.3px; white-space:nowrap;
+  }
+  nav{
+    display:flex; gap:8px; overflow-x:auto; padding:0 18px 12px;
+    max-width:720px; margin:0 auto;
+    scrollbar-width:none;
+  }
+  nav::-webkit-scrollbar{display:none;}
+  nav a{
+    flex:0 0 auto;
+    font-size:12.5px; color:var(--muted); text-decoration:none;
+    border:1px solid var(--line); padding:7px 13px; border-radius:999px;
+    white-space:nowrap; transition:all .2s ease;
+  }
+  nav a.active, nav a:active{
+    color:var(--bg); background:var(--gold); border-color:var(--gold);
+  }
+
+  main{position:relative; z-index:1; max-width:720px; margin:0 auto; padding:0 0 60px;}
+
+  .hero{padding:34px 18px 10px; text-align:center;}
+  .hero img{
+    width:100%; max-width:380px; border-radius:20px;
+    box-shadow:0 20px 50px -20px rgba(0,0,0,0.7);
+  }
+  .hero-caption{margin-top:18px; color:var(--muted); font-size:13px; line-height:1.7;}
+  .hero-caption a{color:var(--gold); text-decoration:none;}
+
+  .divider{
+    display:flex; align-items:center; gap:10px;
+    padding:8px 18px; opacity:0.5;
+  }
+  .divider svg{flex:0 0 auto;}
+  .divider .line{height:1px; flex:1; background:var(--line);}
+
+  section.dish{
+    padding:26px 16px 6px;
+    scroll-margin-top:112px;
+  }
+  .eyebrow{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Bebas Neue', sans-serif;
+    letter-spacing:2px; font-size:14px; color:var(--coral);
+    margin:0 0 12px 4px;
+  }
+  .eyebrow::before{
+    content:''; width:16px; height:1px; background:var(--coral);
+  }
+  figure{margin:0;}
+  .frame{
+    border-radius:16px; overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--surface);
+    cursor:zoom-in;
+    position:relative;
+  }
+  .frame img{width:100%; display:block;}
+  .zoom-hint{
+    position:absolute; bottom:10px; right:10px;
+    background:rgba(11,13,12,0.7); color:var(--text);
+    font-size:11px; padding:5px 10px; border-radius:999px;
+    border:1px solid var(--line); pointer-events:none;
+  }
+
+  footer{
+    text-align:center; padding:40px 20px 30px; color:var(--muted); font-size:12.5px;
+    border-top:1px solid var(--line); margin-top:20px; position:relative; z-index:1;
+  }
+  footer .fname{color:var(--gold); font-family:'Bebas Neue',sans-serif; letter-spacing:2px; font-size:18px; display:block; margin-bottom:6px;}
+  footer a{color:var(--text);}
+
+  /* Lightbox */
+  .lightbox{
+    position:fixed; inset:0; background:rgba(6,7,6,0.96);
+    display:none; align-items:center; justify-content:center;
+    z-index:100; padding:20px; overflow:auto;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:100%; max-height:100%; border-radius:8px;}
+  .lightbox-close{
+    position:fixed; top:16px; right:16px; z-index:101;
+    width:40px; height:40px; border-radius:50%;
+    background:rgba(255,255,255,0.08); border:1px solid var(--line);
+    color:var(--text); font-size:20px; line-height:1; cursor:pointer;
+  }
+
+  @media (min-width:600px){
+    .wordmark{font-size:30px;}
+    .frame{border-radius:20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="koi-bg"></div>
+
+<header>
+  <div class="header-top">
+    <div class="wordmark">KAI<span>SUSHI</span></div>
+    <a class="call-btn" href="tel:+56991050996">Llamar</a>
+  </div>
+  <nav id="catnav">
+    <a href="#especiales">Especiales</a>
+    <a href="#arma-tu-roll">Arma tu Roll</a>
+    <a href="#hand-roll">Hand Roll</a>
+    <a href="#tablas">Tablas</a>
+    <a href="#tortas">Tortas</a>
+    <a href="#gohan">Gohan</a>
+    <a href="#sushi-burger">Sushi Burger</a>
+    <a href="#pizza">Pizza</a>
+    <a href="#extras">Extras</a>
+    <a href="#bebestibles">Bebestibles</a>
+  </nav>
+</header>
+
+<main>
+
+  <div class="hero">
+    <img src="images/01-logo.webp" alt="Kai Sushi Restaurant" width="1000" height="1250">
+    <p class="hero-caption">Calle San José #090 · <a href="tel:+56991050996">+56 9 9105 0996</a></p>
+  </div>
+
+  <div class="divider" aria-hidden="true">
+    <div class="line"></div>
+    <svg width="22" height="14" viewBox="0 0 22 14"><path d="M1 7 Q6 2 11 7 T21 7" fill="none" stroke="#c9a15a" stroke-width="1.4"/></svg>
+    <div class="line"></div>
+  </div>
+
+  <section class="dish" id="especiales">
+    <p class="eyebrow">Cortes Especiales</p>
+    <figure class="frame" data-lightbox>
+      <img src="images/02-cortes-especiales.webp" alt="Cortes especiales: Cevikai, Hinata, Ebi Roll, Tori Acevichado" loading="lazy" width="679" height="960">
+      <span class="zoom-hint">Toca para ampliar</span>
+    </figure>
+  </section>
+
+  <section class="dish" id="arma-tu-roll">
+    <p class="eyebrow">Arma tu Roll</p>
+    <figure class="frame" data-lightbox>
+      <img src="images/03-arma-tu-roll.webp" alt="Arma tu roll: proteínas, envolturas y vegetales" loading="lazy" width="678" height="960">
+      <span class="zoom-hint">Toca para ampliar</span>
+    </figure>
+  </section>
+
+  <section class="dish" id="hand-roll">
+    <p class="eyebrow">Hand Roll</p>
+    <figure class="frame" data-lightbox>
+      <img src="images/04-hand-roll.webp" alt="Hand Roll y promociones" loading="lazy" width="540" height="960">
+      <span class="zoom-hint">Toca para ampliar</span>
+    </figure>
+  </section>
+
+  <section class="dish" id="tablas">
+    <p class="eyebrow">Tablas</p>
+    <figure class="frame" data-lightbox>
+      <img src="images/05-tablas.webp" alt="Tablas Kai Sushi por cortes" loading="lazy" width="678" height="960">
+      <span class="zoom-hint">Toca para ampliar</span>
+    </figure>
+  </section>
+
+  <section class="dish" id="tortas">
+    <p class="eyebrow">Tortas</p>
+    <figure class="frame" data-lightbox>
+      <img src="images/06-tortas.webp" alt="Tortas de sushi por cortes" loading="lazy" width="768" height="960">
+      <span class="zoom-hint">Toca para ampliar</span>
+    </figure>
+  </section>
+
+  <section class="dish" id="gohan">
+    <p class="eyebrow">Gohan</p>
+    <figure class="frame" data-lightbox>
+      <img src="images/07-gohan.webp" alt="Gohan: normal, furay y veggie" loading="lazy" width="678" height="960">
+      <span class="zoom-hint">Toca para ampliar</span>
+    </figure>
+  </section>
+
+  <section class="dish" id="sushi-burger">
+    <p class="eyebrow">Sushi Burger</p>
+    <figure class="frame" data-lightbox>
+      <img src="images/08-sushi-burger.webp" alt="Sushi Burger: veggie, pollo, camarón, salmón" loading="lazy" width="679" height="960">
+      <span class="zoom-hint">Toca para ampliar</span>
+    </figure>
+  </section>
+
+  <section class="dish" id="pizza">
+    <p class="eyebrow">Menú Pizza</p>
+    <figure class="frame" data-lightbox>
+      <img src="images/09-pizza.webp" alt="Menú de pizzas Kai Sushi" loading="lazy" width="679" height="960">
+      <span class="zoom-hint">Toca para ampliar</span>
+    </figure>
+  </section>
+
+  <section class="dish" id="extras">
+    <p class="eyebrow">Extras</p>
+    <figure class="frame" data-lightbox>
+      <img src="images/10-extras.webp" alt="Extras: gyosas, arrollados, furay, toppings" loading="lazy" width="540" height="960">
+      <span class="zoom-hint">Toca para ampliar</span>
+    </figure>
+  </section>
+
+  <section class="dish" id="bebestibles">
+    <p class="eyebrow">Bebestibles</p>
+    <figure class="frame" data-lightbox>
+      <img src="images/11-bebestibles.webp" alt="Bebestibles: bebidas, jugos, café y té" loading="lazy" width="679" height="960">
+      <span class="zoom-hint">Toca para ampliar</span>
+    </figure>
+  </section>
+
+</main>
+
+<footer>
+  <span class="fname">KAI SUSHI RESTAURANT</span>
+  Calle San José #090 · <a href="tel:+56991050996">+56 9 9105 0996</a>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('section.dish');
+  const links = document.querySelectorAll('#catnav a');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        links.forEach(l=>l.classList.remove('active'));
+        const link = document.querySelector('#catnav a[href="#'+entry.target.id+'"]');
+        if(link){
+          link.classList.add('active');
+          link.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+        }
+      }
+    });
+  }, {rootMargin:'-45% 0px -45% 0px'});
+  sections.forEach(s=>io.observe(s));
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  document.querySelectorAll('[data-lightbox]').forEach(fig=>{
+    fig.addEventListener('click', ()=>{
+      const img = fig.querySelector('img');
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('open');
+    });
+  });
+  function closeLightbox(){ lightbox.classList.remove('open'); lightboxImg.src=''; }
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
